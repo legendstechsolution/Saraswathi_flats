@@ -93,9 +93,9 @@ if (isset($_POST['submit'])) {
                               style="font-size:18px;"><i class="fa fa-facebook"></i></a></li>
                         <li><a target="_blank;" href="https://www.linkedin.com/in/anand-nathamani-2308a7a1/"
                               style="font-size:18px;"><i class="fa fa-linkedin"></i></a></li>
-                        <li><a target="_blank;"
-                              href="https://api.whatsapp.com/send?phone=918072798551&amp;text=Hi Saraswathi Construction"
-                              style="font-size:18px;"><i class="fa fa-whatsapp"></i></a></li>
+       <li><a target="_blank;"
+                              href="https://instagram.com/nanandn2020?utm_source=qr&igshid=MzNlNGNkZWQ4Mg=="
+                              style="font-size:18px;"><i class="fa fa-instagram"></i></a></li>
                      </ul>
                   </div>
                </div>
@@ -152,10 +152,10 @@ if (isset($_POST['submit'])) {
                         <li><a href="index.php">Home</a></li>
                         <li><a href="#">Projects</a>
                            <ul>
-                              <li><a href="OnGoing_Project.php">OnGoing Project</a>
+                              <li><a href="OnGoing_Project.php">OnGoing Projects</a>
 
                               </li>
-                              <li><a href="portfolia.php">Complete Project</a></li>
+                              <li><a href="portfolia.php">Completed Projects</a></li>
                            </ul>
                         </li>
                         <li><a href="services.php">Our Services</a></li>

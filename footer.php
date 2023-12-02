@@ -88,15 +88,9 @@
                         </a>
                      </li>
                      <li>
-                        <a href="services.php">
+                        <a href="venture.php">
                            <i class="fa fa-angle-right"></i>
-                           Renovation
-                        </a>
-                     </li>
-                     <li>
-                        <a href="services.php">
-                           <i class="fa fa-angle-right"></i>
-                           Interior Solution
+                           Joint Venture
                         </a>
                      </li>
 
@@ -138,14 +132,9 @@
                            <i class="fa fa-linkedin"></i>
                         </a>
                      </li>
-                     <li>
-                        <a target="_blank;"
-                           href="https://api.whatsapp.com/send?phone=918072798551&amp;text=Hi Saraswathi Construction"
-                           class="whatsapp">
-
-                           <i class="fa fa-whatsapp"></i>
-                        </a>
-                     </li>
+                     <li><a target="_blank;"
+                           href="https://instagram.com/nanandn2020?utm_source=qr&igshid=MzNlNGNkZWQ4Mg=="><i
+                              class="fa fa-instagram"></i></a></li>
                   </ul>
 
                </div>

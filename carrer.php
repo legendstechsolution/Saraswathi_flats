@@ -2,13 +2,6 @@
 session_start();
 
 include('connection.php');
-
-
-
-
-
-// Assuming $conn is your database connection
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
    // Validate and sanitize input fields
    $name = $_POST["name"];
@@ -18,29 +11,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
    $apply = $_POST["apply"];
    $salary = $_POST["salary"];
    $current_location = $_POST["current_location"];
+   $dateApplied = date("Y-m-d");
+   $timeApplied = date("H:i:s");
 
-   // Validate captcha
-   if (!isset($_POST['captcha_answer']) || empty($_POST['captcha_answer'])) {
-      echo '<script>alert("Captcha answer is required!");</script>';
-      // Redirect the user back to the form
-   } else {
-      $userAnswer = intval($_POST['captcha_answer']);
-      $correctAnswer = $_SESSION['captcha_answer'];
-      if ($userAnswer !== $correctAnswer) {
-         echo '<script>alert("Incorrect captcha answer!");</script>';
-         // Redirect the user back to the form
-      } else {
-         // Capture current date and time
-         $dateApplied = date("Y-m-d");
-         $timeApplied = date("H:i:s");
 
-         // Check if the table exists
-         $checkTableQuery = "SHOW TABLES LIKE 'career_applications'";
-         $tableExists = $conn->query($checkTableQuery);
 
-         if ($tableExists->num_rows == 0) {
-            // Table doesn't exist, create it
-            $createTableQuery = "CREATE TABLE career_applications (
+
+
+
+
+   // Check if the table exists
+   $checkTableQuery = "SHOW TABLES LIKE 'career_applications'";
+   $tableExists = $conn->query($checkTableQuery);
+
+   if ($tableExists->num_rows == 0) {
+      // Table doesn't exist, create it
+      $createTableQuery = "CREATE TABLE career_applications (
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     name VARCHAR(255) NOT NULL,
                     email VARCHAR(255) NOT NULL,
@@ -54,64 +40,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     time_applied TIME
                 )";
 
-            if ($conn->query($createTableQuery) !== TRUE) {
-               echo "Error creating table: " . $conn->error;
-               $conn->close();
-               exit; // Exit the script if table creation fails
-            }
-         }
-
-
-
-
-
-
-         // File Name Handling
-         $originalFileName = $_FILES["resume"]["name"];
-         $fileExtension = strtolower(pathinfo($originalFileName, PATHINFO_EXTENSION));
-
-         // Construct a unique filename to avoid conflicts
-         $resume = "resume_" . time() . "_" . uniqid() . "." . $fileExtension;
-         $targetDir = "admin/images/";
-         $targetFile = $targetDir . rawurlencode($resume);
-
-         // Move File and Database Insertion
-         if (move_uploaded_file($_FILES["resume"]["tmp_name"], $targetFile)) {
-            $insertDataQuery = $conn->prepare("INSERT INTO career_applications (name, email, number, work, apply, resume, salary, current_location, date_applied, time_applied) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
-            $insertDataQuery->bind_param("ssssssssss", $name, $email, $number, $work, $apply, $resume, $salary, $current_location, $dateApplied, $timeApplied);
-
-            if ($insertDataQuery->execute()) {
-               // Display success alert using JavaScript
-               echo '<script>alert("Record inserted successfully!");</script>';
-            } else {
-               echo "Error: " . $insertDataQuery->error;
-            }
-         } else {
-            echo "Error uploading file.";
-         }
-
-         // Close the database connection
+      if ($conn->query($createTableQuery) !== TRUE) {
+         echo "Error creating table: " . $conn->error;
          $conn->close();
+         exit; // Exit the script if table creation fails
       }
    }
+
+   // File Name Handling
+   $originalFileName = $_FILES["resume"]["name"];
+   $fileExtension = strtolower(pathinfo($originalFileName, PATHINFO_EXTENSION));
+
+   // Construct a unique filename to avoid conflicts
+   $resume = "resume_" . time() . "_" . uniqid() . "." . $fileExtension;
+   $targetDir = "admin/images/";
+   $targetFile = $targetDir . rawurlencode($resume);
+
+   // Move File and Database Insertion
+   if (move_uploaded_file($_FILES["resume"]["tmp_name"], $targetFile)) {
+      $insertDataQuery = "INSERT INTO career_applications (name, email, number, work, apply, resume, salary, current_location, date_applied, time_applied) VALUES ('$name', '$email', '$number', '$work', '$apply', '$resume', '$salary', '$current_location', '$dateApplied', '$timeApplied')";
+      $conn->query($insertDataQuery);
+
+   }
+
+   // Close the database connection
+   $conn->close();
 }
 
 
 
 
 
-function generateCaptcha()
-{
-   $num1 = rand(1, 10);
-   $num2 = rand(1, 10);
-   $_SESSION['captcha_answer'] = $num1 + $num2;
-   return "$num1 + $num2 = ?";
-}
 
 
-// Generate the captcha question
-$captchaQuestion = generateCaptcha();
+
+
+
+
+
+
 
 ?>
 <!DOCTYPE html>
@@ -183,8 +150,8 @@ $captchaQuestion = generateCaptcha();
                         <li><a target="_blank;" href="https://www.linkedin.com/in/anand-nathamani-2308a7a1/"
                               style="font-size:18px;"><i class="fa fa-linkedin"></i></a></li>
                         <li><a target="_blank;"
-                              href="https://api.whatsapp.com/send?phone=918072798551&amp;text=Hi Saraswathi Construction"
-                              style="font-size:18px;"><i class="fa fa-whatsapp"></i></a></li>
+                              href="https://instagram.com/nanandn2020?utm_source=qr&igshid=MzNlNGNkZWQ4Mg=="
+                              style="font-size:18px;"><i class="fa fa-instagram"></i></a></li>
                      </ul>
                   </div>
                </div>
@@ -241,10 +208,10 @@ $captchaQuestion = generateCaptcha();
                         <li><a href="index.php">Home</a></li>
                         <li><a href="#">Projects</a>
                            <ul>
-                              <li><a href="OnGoing_Project.php">OnGoing Project</a>
+                              <li><a href="OnGoing_Project.php">OnGoing Projects</a>
 
                               </li>
-                              <li><a href="portfolia.php">Complete Project</a></li>
+                              <li><a href="portfolia.php">Completed Projects</a></li>
                            </ul>
                         </li>
 
@@ -290,61 +257,100 @@ $captchaQuestion = generateCaptcha();
 
    <div class="container careerform">
       <div class="row pt-5 pb-3">
+         <?php if (isset($message)): ?>
+            <div class="container">
+               <div id="myAlert" class="alert alert-<?php echo $alert_type; ?> alert-dismissible fade show" role="alert">
+                  <?php echo $message; ?>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                  </button>
+               </div>
+            </div>
+            <?php if ($success): ?>
+               <script>
+                  setTimeout(function () {
+                     $("#myAlert").alert("close");
+                     window.location.href = "services.php"; // Redirect to pricing.php on success
+                  }, 4000); // 2 seconds
+               </script>
+            <?php else: ?>
+               <script>
+                  setTimeout(function () {
+                     $("#myAlert").alert("close");
+                     // Redirect to pricing.php on success
+                  }, 4000); // 2 seconds
+               </script>
+            <?php endif; ?>
+         <?php endif; ?>
          <div class="col-lg-6 col-md-6 col-sm-12 col-12 service-text">
             <h2>Join Our Team</h2>
-            <h3 class="mt-3">Job Opportunitis</h3>
+            <h3 class="mt-3">Job opportunities</h3>
             <p class="mt-3">“Choose a job you love, and you will never have to work a day in your life”</p>
             <img src="./assets/img/introcareer.png" width="100%" />
          </div>
          <div class="col-lg-6 col-md-6 col-sm-12 col-12">
             <div class="card rounded p-5 bg-image">
-               <form action="" method="post" enctype="multipart/form-data">
+               <form onsubmit="return validateForm();" id="contactForm" action="" method="POST"
+                  enctype="multipart/form-data">
                   <div class="form vstack gap-2 fw-bold">
                      <h3 class="text-center">Career Form</h3>
                      <div class="form-group">
                         <label class="form-label">Name</label>
-                        <input type="text" class="form-control" name="name" required />
+                        <input type="text" class="form-control" id="name" name="name" required />
                      </div>
                      <div class="form-group">
                         <label class="form-label">Email</label>
-                        <input type="text" class="form-control" name="email" />
+                        <input type="email" class="form-control" id="email" name="email" required />
                      </div>
                      <div class="form-group">
                         <label class="form-label">Phone Number</label>
-                        <input type="text" class="form-control" name="number" />
+                        <input type="number" class="form-control" id="phone" name="number" required
+                           title="Please enter valid phone number" />
                      </div>
                      <div class="form-group">
                         <label class="form-label">Are you available to work in our office in Chennai?</label>
-                        <input type="text" class="form-control" name="work" />
+                        <input type="text" class="form-control" name="work" required />
                      </div>
                      <div class="form-group">
                         <label class="form-label">Position applying for</label>
-                        <input type="text" class="form-control" name="apply" />
+                        <input type="text" class="form-control" name="apply" required />
                      </div>
                      <div class="form-group mt-2 mb-2">
                         <label class="form-label">Upload your resume</label>
-                        <input type="file" class="form-control" name="resume" />
+                        <input type="file" class="form-control" name="resume" required />
                      </div>
                      <div class="form-group">
                         <label class="form-label">Expected Salary</label>
-                        <input type="text" class="form-control" name="salary" />
+                        <input type="text" class="form-control" name="salary" required />
                      </div>
                      <div class="form-group">
                         <label class="form-label">Are you currently living in Chennai</label>
-                        <input type="text" class="form-control" name="current_location" />
+                        <input type="text" class="form-control" name="current_location" required />
                      </div>
                      <div class="form-group mt-2 mb-2">
                         <label class="form-label"> Captcha:
-                           <?php echo $captchaQuestion; ?>
+                           <?php
+                           $num1 = rand(1, 10);
+                           $num2 = rand(1, 10);
+                           $c = $num1 + $num2;
+                           echo $num1 . " + " . $num2 . " = " . "?";
+                           ?>
                         </label>
 
-                        <input type="text" name="captcha_answer" required />
-                     </div>
 
-                     <div class="mt-2 mb-2">
-                        <button type="submit" class="btn btn-primary p-2 fw-bold">
-                           Submit
-                        </button>
+                        <input type="number" name="captcha_answer" id="captcha_answer" required />
+                        <input type="hidden" id="captcha_ans" name="captcha_ans" value="<?php echo $c; ?>" required>
+                     </div>
+                     <div class="text-center">
+                        <div class="mt-2 mb-2">
+                           <button class="btn btn-primary p-2 fw-bold">
+                              Submit
+                           </button>
+                        </div>
+                     </div>
+                     <div id="messageContainer" style="display: none;">
+                        <p id="successMessage" style="color: green;"></p>
+                        <p id="errorMessage" style="color: red;"></p>
                      </div>
                   </div>
                </form>
@@ -386,6 +392,56 @@ $captchaQuestion = generateCaptcha();
    <!-- Gmap JS -->
    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD7CQl6fRhagGok6CzFGOOPne2X1u1spoA"></script>
    <script src="assets/js/gmap.js"></script>
+   <script>
+      function validateForm() {
+         var name = document.getElementById('name').value;
+         var phone = document.getElementById('phone').value;
+         var captcha = document.getElementById('captcha_ans').value;
+         var captchaAns = document.getElementById('captcha_answer').value;
+
+         var phoneRegex = /^[0-9]{10}$/;
+
+         if (name === '' || captcha === '') {
+            displayMessage('errorMessage', 'Name and Captcha are required fields!');
+            return false;
+         } else if (!phoneRegex.test(phone)) {
+            displayMessage('errorMessage', 'Please enter a valid 10-digit phone number.');
+            return false;
+         } else if (captcha !== captchaAns) {
+            displayMessage('errorMessage', 'Captcha verification failed. Please try again.');
+            return false;
+         } else {
+            displayMessage('successMessage', 'Form submitted successfully!');
+            submitForm(); // Function to handle form submission
+            return true;
+         }
+      }
+
+      function displayMessage(elementId, message) {
+         var element = document.getElementById(elementId);
+         element.innerText = message;
+
+         var messageContainer = document.getElementById('messageContainer');
+
+         // Hide both messages initially
+         document.getElementById('successMessage').style.display = 'none';
+         document.getElementById('errorMessage').style.display = 'none';
+
+         // Display the appropriate message based on messageType
+         if (elementId === 'successMessage') {
+            document.getElementById('successMessage').style.display = 'block';
+         } else if (elementId === 'errorMessage') {
+            document.getElementById('errorMessage').style.display = 'block';
+         }
+
+         // Display the message container
+         messageContainer.style.display = 'block';
+      }
+
+      function submitForm() {
+         document.getElementById('contactForm').submit();
+      }
+   </script>
 </body>
 
 </html>

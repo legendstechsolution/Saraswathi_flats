@@ -1,6 +1,6 @@
 <?php
-session_start();
 include('connection.php');
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data
     $name = $_POST["name"];
@@ -12,72 +12,61 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Validate captcha
     if (!isset($_POST['captcha_answer']) || empty($_POST['captcha_answer'])) {
-        echo '<script>alert("Captcha answer is required!"); </script>';
-        // Redirect the user back to the form
-    } else {
-        $userAnswer = intval($_POST['captcha_answer']);
-        $correctAnswer = $_SESSION['captcha_answer'];
-     
+        // Handle the case where captcha is not provided
+        exit("Captcha answer is required!");
+    }
 
-        if ($userAnswer !== $correctAnswer) {
-            echo '<script>alert("Incorrect captcha answer!");</script>';
-            // Redirect the user back to the form
-        } else {
-            // Check if the table exists
-            $checkTableQuery = "SHOW TABLES LIKE 'venture_scs'";
-            $tableExists = $conn->query($checkTableQuery);
+    $userAnswer = $_POST['captcha_answer'];
+    $correctAnswer = $_POST['captcha_ans'];
 
-            if ($tableExists->num_rows == 0) {
-                // Table doesn't exist, create it
-                $createTableQuery = "CREATE TABLE venture_scs (
-                    id INT AUTO_INCREMENT PRIMARY KEY,
-                    name VARCHAR(255) NOT NULL,
-                    email VARCHAR(255) NOT NULL,
-                    number VARCHAR(15) NOT NULL,
-                    work VARCHAR(255) NOT NULL,
-                    apply VARCHAR(255) NOT NULL,
-                    subject TEXT NOT NULL,
-                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-                )";
+    if ($userAnswer !== $correctAnswer) {
+        // Handle the case where the captcha answer is incorrect
+        exit("Incorrect captcha answer!");
+    }
 
-                if ($conn->query($createTableQuery) !== TRUE) {
-                    echo "Error creating table: " . $conn->error;
-                    $conn->close();
-                    exit; // Exit the script if table creation fails
-                }
-            }
+    // Check if the table exists
+    $checkTableQuery = "SHOW TABLES LIKE 'venture_scs'";
+    $tableExists = $conn->query($checkTableQuery);
 
-            // Prepare and execute SQL statement to insert data into the database
-            $insertDataQuery = $conn->prepare("INSERT INTO venture_scs (name, email, number, work, apply, subject) VALUES (?, ?, ?, ?, ?, ?)");
-            $insertDataQuery->bind_param("ssssss", $name, $email, $number, $work, $apply, $subject);
+    if ($tableExists->num_rows == 0) {
+        // Table doesn't exist, create it
+        $createTableQuery = "CREATE TABLE venture_scs (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255) NOT NULL,
+            email VARCHAR(255) NOT NULL,
+            number VARCHAR(15) NOT NULL,
+            work VARCHAR(255) NOT NULL,
+            apply VARCHAR(255) NOT NULL,
+            subject TEXT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )";
 
-            if ($insertDataQuery->execute()) {
-                // Display success alert using JavaScript
-                echo '<script>alert("Record inserted successfully!"); </script>';
-                // Redirect the user to a success page
-            } else {
-                echo "Error: " . $insertDataQuery->error;
-            }
-
-            // Close the prepared statement
-            $insertDataQuery->close();
-            // Close the database connection
-            $conn->close();
+        if ($conn->query($createTableQuery) !== TRUE) {
+            // Handle the case where table creation fails
+            exit("Error creating table: " . $conn->error);
         }
     }
-}
-function generateCaptcha()
-{
-    $num1 = rand(1, 10);
-    $num2 = rand(1, 10);
-    $_SESSION['captcha_answer'] = $num1 + $num2;
-    return "$num1 + $num2 = ?";
-}
+
+    // Insert data into the database
+    $insertDataQuery = "INSERT INTO venture_scs (name, email, number, work, apply, subject) VALUES ('$name', '$email', '$number', '$work', '$apply', '$subject')";
+    $conn->query($insertDataQuery);
 
 
-// Generate the captcha question
-$captchaQuestion = generateCaptcha();
+    // Close the database connection
+    $conn->close();
+}
+
+$num1 = rand(1, 10);
+$num2 = rand(1, 10);
+$c = $num1 + $num2;
+
+
+
+
+
+
 ?>
+
 
 
 
@@ -152,8 +141,8 @@ $captchaQuestion = generateCaptcha();
                                 <li><a target="_blank;" href="https://www.linkedin.com/in/anand-nathamani-2308a7a1/"
                                         style="font-size:18px;"><i class="fa fa-linkedin"></i></a></li>
                                 <li><a target="_blank;"
-                                        href="https://api.whatsapp.com/send?phone=918072798551&amp;text=Hi Saraswathi Construction"
-                                        style="font-size:18px;"><i class="fa fa-whatsapp"></i></a></li>
+                                        href="https://instagram.com/nanandn2020?utm_source=qr&igshid=MzNlNGNkZWQ4Mg=="
+                                        style="font-size:18px;"><i class="fa fa-instagram"></i></a></li>
                             </ul>
                         </div>
                     </div>
@@ -210,10 +199,10 @@ $captchaQuestion = generateCaptcha();
                                 <li><a href="index.php">Home</a></li>
                                 <li><a href="#">Projects</a>
                                     <ul>
-                                        <li><a href="OnGoing_Project.php">OnGoing Project</a>
+                                        <li><a href="OnGoing_Project.php">OnGoing Projects</a>
 
                                         </li>
-                                        <li><a href="#">Complete Project</a></li>
+                                        <li><a href="#">Completed Projects</a></li>
                                     </ul>
                                 </li>
                                 <li><a href="services.php">Our Services</a></li>
@@ -262,6 +251,7 @@ $captchaQuestion = generateCaptcha();
             <div class="section-heading">
                 <h2>Joint Venture</h2>
                 <p>Join hands with us to create a profitable joint development for you</p>
+
             </div>
 
             <!-- Service Cards -->
@@ -302,42 +292,51 @@ $captchaQuestion = generateCaptcha();
             <!-- Contact Form -->
             <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                 <div class="card rounded p-5  bg-image">
-                    <form id="myForm" action="" method="post">
+
+                    <form onsubmit="return validateForm();" id="contactForm" action="" method="POST">
                         <div class="form  vstack gap-2 fw-bold">
                             <div class="form-group">
                                 <label class="form-label">Name</label>
-                                <input type="text" class="form-control" name="name" required />
+                                <input type="text" class="form-control" name="name" id="name" required />
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Email</label>
-                                <input type="text" class="form-control" name="email" required />
+                                <input type="email" class="form-control" name="email" id="email" required />
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Phone Number</label>
-                                <input type="text" class="form-control" name="number" required />
+                                <input type="number" class="form-control" name="number" id="number"
+                                    title="Please enter valid phone number" />
+
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Location (We are operating only in Chennai as of now)</label>
-                                <input type="text" class="form-control" name="work" required />
+                                <input type="text" class="form-control" name="work" id="work" required />
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Enter Your land area in sq.ft.</label>
-                                <input type="text" class="form-control" name="apply" required />
+                                <input type="text" class="form-control" id="apply" name="apply" required />
                             </div>
                             <div class="form-group mt-2 mb-2">
                                 <label class="form-label">Please explain your requirement</label>
-                                <textarea class="form-control" name="subject" required rows="3"></textarea>
+                                <textarea class="form-control" name="subject" id="subject" required rows="3"></textarea>
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Captcha:
-                                    <?php echo $captchaQuestion; ?>
-                                </label>
-                                <input type="text" class="form-control" name="captcha_answer" required />
+                              <label class="form-label">Captcha: <?php echo $num1 . "+" . $num2 . " = ?"; ?>
+                            </label>
+
+                                <input type="text" name="captcha_answer" id="captcha_answer" required />
+                                <input type="hidden" id="captcha_ans" name="captcha_ans"
+                                    value="<?php echo $c ?>" required>
                             </div>
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary p-2 fw-bold">
+                                <button  class="btn btn-primary p-2 fw-bold">
                                     Submit
                                 </button>
+                            </div>
+                            <div id="messageContainer" style="display: none;">
+                                <p id="successMessage" style="color: green;"></p>
+                                <p id="errorMessage" style="color: red;"></p>
                             </div>
                         </div>
                     </form>
@@ -379,6 +378,56 @@ $captchaQuestion = generateCaptcha();
     <!-- Gmap JS -->
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD7CQl6fRhagGok6CzFGOOPne2X1u1spoA"></script>
     <script src="assets/js/gmap.js"></script>
+    <script>
+        function validateForm() {
+            var name = document.getElementById('name').value;
+            var phone = document.getElementById('number').value;
+            var captcha = document.getElementById('captcha_answer').value;
+            var captchaAns = document.getElementById('captcha_ans').value;
+
+            var phoneRegex = /^[0-9]{10}$/;
+            if (name === '' || captcha === '') {
+                displayMessage('errorMessage', 'Name and Captcha are required fields!');
+                return false;
+            } else if (!phoneRegex.test(phone)) {
+                displayMessage('errorMessage', 'Please enter a valid 10-digit phone number.');
+                return false;
+            } else if (captcha !== captchaAns) {
+                displayMessage('errorMessage', 'Captcha verification failed. Please try again.');
+                return false;
+            } else {
+                displayMessage('successMessage', 'Form submitted successfully!');
+                submitForm(); // Function to handle form submission
+                return true;
+            }
+        }
+
+        function displayMessage(elementId, message) {
+            var element = document.getElementById(elementId);
+            element.innerText = message;
+
+            var messageContainer = document.getElementById('messageContainer');
+
+            // Hide both messages initially
+            document.getElementById('successMessage').style.display = 'none';
+            document.getElementById('errorMessage').style.display = 'none';
+
+            // Display the appropriate message based on messageType
+            if (elementId === 'successMessage') {
+                document.getElementById('successMessage').style.display = 'block';
+            } else if (elementId === 'errorMessage') {
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+
+            // Display the message container
+            messageContainer.style.display = 'block';
+        }
+
+        function submitForm() {
+
+            document.getElementById('contactForm').submit();
+        }
+    </script>
 </body>
 
 </html>

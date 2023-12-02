@@ -66,9 +66,9 @@
                                         style="font-size:18px;"><i class="fa fa-facebook"></i></a></li>
                                 <li><a target="_blank;" href="https://www.linkedin.com/in/anand-nathamani-2308a7a1/"
                                         style="font-size:18px;"><i class="fa fa-linkedin"></i></a></li>
-                                <li><a target="_blank;"
-                                        href="https://api.whatsapp.com/send?phone=918072798551&amp;text=Hi Saraswathi Construction"
-                                        style="font-size:18px;"><i class="fa fa-whatsapp"></i></a></li>
+          <li><a target="_blank;"
+                              href="https://instagram.com/nanandn2020?utm_source=qr&igshid=MzNlNGNkZWQ4Mg=="
+                              style="font-size:18px;"><i class="fa fa-instagram"></i></a></li>
                             </ul>
                         </div>
                     </div>
@@ -125,10 +125,10 @@
                                 <li><a href="index.php">Home</a></li>
                                 <li class="current-page-item"><a href="#">Projects</a>
                                     <ul>
-                                        <li class="current-page-item"><a href="ongoing_project.php">OnGoing Project</a>
+                                        <li class="current-page-item"><a href="ongoing_project.php">OnGoing Projects</a>
 
                                         </li>
-                                        <li><a href="portfolia.php">Complete Project</a></li>
+                                        <li><a href="portfolia.php">Completed Projects</a></li>
                                     </ul>
                                 </li>
                                 <li><a href="services.php">Our Services</a></li>
@@ -176,11 +176,11 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="breadcromb">
-                        <h2>Ongoing Project</h2>
+                        <h2>Ongoing Projects</h2>
                         <ul>
                             <li><a href="index.php">home</a></li>
                             <li>/</li>
-                            <li>Ongoing Project</li>
+                            <li>Ongoing Projects</li>
                         </ul>
                     </div>
                 </div>

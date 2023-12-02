@@ -20,7 +20,7 @@ if (isset($_GET['delete_id'])) {
         echo "<script>";
         echo "alert ('Deleted Sucessfully!')";
         echo "</script>";
-        echo "<script>window.location='mail.php'</script>";
+        echo "<script>window.location='project_mail.php'</script>";
     }
 }
 
@@ -174,7 +174,7 @@ $result_mail = mysqli_query($conn, $sql_mail);
         <div class="container">
             <div class="row">
                 <div class=" col-lg-12 col-md-12 col-sm-12">
-                    <h2 style="color:red;">Mail List </h2><br><br>
+                    <h2 style="color:red;">Project List </h2><br><br>
                     <div id="overflowTest">
                         <table class="table table-bordered table-striped table-hover" id="overflowTest">
                             <thead>
@@ -209,7 +209,12 @@ $result_mail = mysqli_query($conn, $sql_mail);
                                         </td>
 
                                         <td>
-                                            <?php echo $row_mail['created_at']; ?>
+                                            <?php $date = $row_mail['created_at'];
+                                            $dateformat = new DateTime($date);
+                                            $formattedDate = $dateformat->format('d/m/Y h:ia');
+
+                                            echo $formattedDate;
+                                            ?>
                                         </td>
 
                                         <td>

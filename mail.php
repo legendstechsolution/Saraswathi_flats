@@ -209,7 +209,15 @@ $result_mail = mysqli_query($conn, $sql_mail);
                                  <?php echo $row_mail['msg']; ?>
                               </td>
                               <td>
-                                 <?php echo $row_mail['date']; ?>
+                                 <?php
+                                 // Assuming $row_mail['date'] contains a valid date string
+                              
+                                 $rawDate = $row_mail['date'];
+                                 $dateObject = new DateTime($rawDate);
+                                 $formattedDate = $dateObject->format('d/m/Y h:ia');
+
+                                 echo $formattedDate;
+                                 ?>
                               </td>
                               <td>
                                  <a href="mail.php?delete_id=<?php echo $row_mail['id']; ?>" class="btn btn-sm btn-danger"

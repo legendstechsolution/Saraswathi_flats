@@ -31,41 +31,40 @@ if (isset($_GET["phy"])) {
 include('connection.php');
 
 
-if (isset($_POST['mail'])) {
-   $name = $_POST['name'];
-   $email = $_POST['email'];
-   $subject = $_POST['subject'];
-   $phone = $_POST['phone'];
-   $message = $_POST['message'];
-   $captcha = $_POST['captcha'];
-   $captcha_ans = $_POST['captcha_ans'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+   $name = mysqli_real_escape_string($conn, $_POST['name']);
+   $email = mysqli_real_escape_string($conn, $_POST['email']);
+   $subject = mysqli_real_escape_string($conn, $_POST['subject']);
+   $phone = mysqli_real_escape_string($conn, $_POST['phone']);
+   $message = mysqli_real_escape_string($conn, $_POST['message']);
+   $captcha = mysqli_real_escape_string($conn, $_POST['captcha']);
+   $captcha_ans = mysqli_real_escape_string($conn, $_POST['captcha_ans']);
+
+   // Validate Captcha
    if ($captcha == $captcha_ans) {
+      // Construct Email Message
+      $msg = "Name: $name\nEmail: $email\nPhone: $phone\nSubject: $subject\nMessage: $message";
 
-      $msg = " Name : " . $name . "\n Email : " . $email . "\n phone : " . $phone . "\n Subject : " . $subject . "\n Message : " . $message;
-
-      mail("nanandn@gmail.com", "Mail from SCS Request", $msg);
-
-
-      if ($msg) {
-         echo ("<script LANGUAGE='JavaScript'>
-	  window.alert('Message Sent Sucessfully');
-	  window.location.href='pricing.php';
-	  </script>");
+      // Send Email
+      if (mail("nanandn@gmail.com", "Mail from SCS Request", $msg)) {
+         // Email sent successfully
+         $alert_class = "alert-success";
+         $alert_message = "Message Sent Successfully";
+         $success = true;
       } else {
-         echo ("<script LANGUAGE='JavaScript'>
-	  window.alert('Message Sent failed');
-	  window.location.href='pricing.php';
-	  </script>");
+         // Email sending failed
+         $alert_class = "alert-danger";
+         $alert_message = "Message Sent Failed";
       }
 
-      $sql_mail = "INSERT INTO scs_mail (name, email, subject, phone, msg) VALUES('$name', '$email', '$subject', '$phone', '$message')";
-      $result_mail = mysqli_query($conn, $sql_mail);
+      // Insert into Database
+      $sql_mail = "INSERT INTO scs_mail (name, email, subject, phone, msg) VALUES ('$name', '$email', '$subject', '$phone', '$message')";
+      mysqli_query($conn, $sql_mail);
    } else {
-      echo ("<script LANGUAGE='JavaScript'>
-	  window.alert('Invalid Captcha Please try again');
-
-	  </script>");
+      // Invalid Captcha
+      $alert_class = "alert-danger";
+      $alert_message = "Invalid Captcha. Please try again.";
    }
 }
 ?>
@@ -143,8 +142,8 @@ if (isset($_POST['mail'])) {
                         <li><a target="_blank;" href="https://www.linkedin.com/in/anand-nathamani-2308a7a1/"
                               style="font-size:18px;"><i class="fa fa-linkedin"></i></a></li>
                         <li><a target="_blank;"
-                              href="https://api.whatsapp.com/send?phone=918072798551&amp;text=Hi Saraswathi Construction"
-                              style="font-size:18px;"><i class="fa fa-whatsapp"></i></a></li>
+                              href="https://instagram.com/nanandn2020?utm_source=qr&igshid=MzNlNGNkZWQ4Mg=="
+                              style="font-size:18px;"><i class="fa fa-instagram"></i></a></li>
                      </ul>
                   </div>
                </div>
@@ -200,10 +199,10 @@ if (isset($_POST['mail'])) {
                         <li><a href="index.php">Home</a></li>
                         <li><a href="#">Projects</a>
                            <ul>
-                              <li><a href="OnGoing_Project.php">OnGoing Project</a>
+                              <li><a href="OnGoing_Project.php">OnGoing Projects</a>
 
                               </li>
-                              <li><a href="portfolia.php">Complete Project</a></li>
+                              <li><a href="portfolia.php">Completed Projects</a></li>
                            </ul>
                         </li>
                         <li><a href="services.php">Our Services</a></li>
@@ -310,22 +309,23 @@ if (isset($_POST['mail'])) {
                <tr>
                   <td>1</td>
                   <td>
-                     <select id="package" onchange="setPackage(this.value);calculateCost()" class="form-control">
+                     <select id="package" onchange="setPackage(this.value);calculateCost()" class="custom-input">
                         <option disabled selected value="">Select a package</option>
-                        <option value="2000">Premium @ $2000/sqft</option>
-                        <option value="2200">Elite @ $2200/sqft</option>
+                        <option value="2000">Premium @ Rs:2000/sqft</option>
+                        <option value="2200">Elite @ Rs:2200/sqft</option>
                      </select>
-                     <small>(Enter the total required built-up area for all floors,
+                     <br />
+                     <small>(Enter the total required<br /> built-up area for all floors, <br />
                         including headroom, in square feet)</small>
                   </td>
                   <td>
                      <div class="form-group">
                         <input type="text" id="area" oninput="calculateCost()" placeholder="Area in sqft"
-                           class="form-control" />
+                           class="custom-input" />
                      </div>
                   </td>
                   <td>sqft</td>
-                  <td>Rate: <span id="sqft-rate">0</span></td>
+                  <td>Rs: <span id="sqft-rate">0</span></td>
                   <td>Rs. <span id="sqft_cost">0</span></td>
                </tr>
                <tr>
@@ -334,7 +334,7 @@ if (isset($_POST['mail'])) {
                   <td>
                      <div class="form-group">
                         <input type="text" id="water_pump_lt" oninput="calculateCost()" placeholder="No. Of Liter"
-                           class="form-control" />
+                           class="custom-input" />
                      </div>
                   </td>
                   <td>ltr</td>
@@ -347,7 +347,7 @@ if (isset($_POST['mail'])) {
                   <td>
                      <div class="form-group">
                         <input type="text" id="septicLt" oninput="calculateCost()" placeholder="No. Of Liter"
-                           class="form-control" />
+                           class="custom-input" />
                      </div>
                   </td>
                   <td>ltr</td>
@@ -359,11 +359,11 @@ if (isset($_POST['mail'])) {
                   <td>Plain Compound Wall</td>
                   <td>
                      <div class="form-group">
-                        <input class="compound-length form-control" type="text" id="length" oninput="calculateCost()"
+                        <input class="compound-length custom-input" type="text" id="length" oninput="calculateCost()"
                            placeholder="Length" />
                      </div>
                      <div class="form-group">
-                        <input class="compound-width form-control" type="text" id="width" oninput="calculateCost()"
+                        <input class="compound-width custom-input" type="text" id="width" oninput="calculateCost()"
                            placeholder="Width" />
                      </div>
                   </td>
@@ -449,18 +449,19 @@ if (isset($_POST['mail'])) {
 
                <div class="quote-left">
 
-                  <form action="" method="post" enctype="multipart/form-data">
+                  <form onsubmit="return validateForm();" id="contactForm" action="" method="POST">
                      <div class="row">
+
                         <div class="col-md-6">
                            <p>
                               <label for="name">Name</label>
-                              <input type="text" name="name" placeholder="Your Name..." required>
+                              <input type="text" name="name" id="name" placeholder="Your Name..." required>
                            </p>
                         </div>
                         <div class="col-md-6">
                            <p>
                               <label for="email">Email</label>
-                              <input type="email" name="email" placeholder="Your Email Address...">
+                              <input type="email" name="email" id="email" placeholder="Your Email Address...">
                            </p>
                         </div>
                      </div>
@@ -474,8 +475,9 @@ if (isset($_POST['mail'])) {
                         <div class="col-md-6">
                            <p>
                               <label for="phone">Phone</label>
-                              <input type="text" name="phone" minlength="10" placeholder="Your Phone..."
-                                 autocomplete="off" required>
+                              <input type="text" name="phone" id="phone" required
+                                 title="Please enter valid phone number" placeholder="Your Phone..." autocomplete="off"
+                                 required>
                            </p>
                         </div>
                      </div>
@@ -488,7 +490,6 @@ if (isset($_POST['mail'])) {
                            </p>
                         </div>
                      </div>
-
                      <?php
                      $a = rand(1, 10);
                      $b = rand(1, 10);
@@ -501,17 +502,21 @@ if (isset($_POST['mail'])) {
                            <h2>
                               <?php echo $a . "+" . $b; ?>
                            </h2>
-                           <input type="number" name="captcha" placeholder="Enter the answer" required>
-                           <input type="hidden" name="captcha_ans" value="<?php echo $c; ?>" required>
+                           <input type="number" name="captcha" id="captcha" placeholder="Enter the answer" required>
+                           <input type="hidden" name="captcha_ans" id="captcha_ans" value="<?php echo $c; ?>" required>
                         </div>
                      </div><br>
 
                      <div class="row">
                         <div class="col-md-12">
                            <p>
-                              <button type="submit" name="mail">Request a Quote</button>
+                              <button>Request a Quote</button>
                            </p>
                         </div>
+                     </div>
+                     <div id="messageContainer" style="display: none;">
+                        <p id="successMessage" style="color: green;"></p>
+                        <p id="errorMessage" style="color: red;"></p>
                      </div>
                   </form>
 
@@ -545,6 +550,56 @@ if (isset($_POST['mail'])) {
    <script src="assets/js/custom-isotop.js"></script>
    <!-- Custom JS -->
    <script src="assets/js/custom.js"></script>
+   <script>
+      function validateForm() {
+         var name = document.getElementById('name').value;
+         var phone = document.getElementById('phone').value;
+         var captcha = document.getElementById('captcha').value;
+         var captchaAns = document.getElementById('captcha_ans').value;
+
+         var phoneRegex = /^[0-9]{10}$/;
+
+         if (name === '' || captcha === '') {
+            displayMessage('errorMessage', 'Name and Captcha are required fields!');
+            return false;
+         } else if (!phoneRegex.test(phone)) {
+            displayMessage('errorMessage', 'Please enter a valid 10-digit phone number.');
+            return false;
+         } else if (captcha !== captchaAns) {
+            displayMessage('errorMessage', 'Captcha verification failed. Please try again.');
+            return false;
+         } else {
+            displayMessage('successMessage', 'Form submitted successfully!');
+            submitForm(); // Function to handle form submission
+            return true;
+         }
+      }
+
+      function displayMessage(elementId, message) {
+         var element = document.getElementById(elementId);
+         element.innerText = message;
+
+         var messageContainer = document.getElementById('messageContainer');
+
+         // Hide both messages initially
+         document.getElementById('successMessage').style.display = 'none';
+         document.getElementById('errorMessage').style.display = 'none';
+
+         // Display the appropriate message based on messageType
+         if (elementId === 'successMessage') {
+            document.getElementById('successMessage').style.display = 'block';
+         } else if (elementId === 'errorMessage') {
+            document.getElementById('errorMessage').style.display = 'block';
+         }
+
+         // Display the message container
+         messageContainer.style.display = 'block';
+      }
+
+      function submitForm() {
+         document.getElementById('contactForm').submit();
+      }
+   </script>
 </body>
 
 </html>

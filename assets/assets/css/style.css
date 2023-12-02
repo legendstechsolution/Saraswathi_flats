@@ -166,6 +166,11 @@ input.error {
         width: 280px
     }
 
+    li {
+
+        padding-left: 0.5em;
+    }
+
     #form-outer {
         width: 280px;
         right: 10px
@@ -181,6 +186,11 @@ input.error {
         background: #f7f7f7;
         height: auto;
         width: 100%
+    }
+
+    li {
+        position: relative;
+        padding-left: 0.5em !important;
     }
 
     #form-outer {

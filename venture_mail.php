@@ -168,7 +168,7 @@ $result_mail = mysqli_query($conn, $sql_mail);
         <div class="container">
             <div class="row">
                 <div class=" col-lg-12 col-md-12 col-sm-12">
-                    <h2 style="color:red;">Mail List </h2><br><br>
+                    <h2 style="color:red;">Venture List </h2><br><br>
                     <div id="overflowTest">
                         <table class="table table-bordered table-striped table-hover">
                             <thead>
@@ -213,7 +213,15 @@ $result_mail = mysqli_query($conn, $sql_mail);
                                             <?php echo $row_mail['work']; ?>
                                         </td>
                                         <td>
-                                            <?php echo $row_mail['created_at']; ?>
+                                            <?php
+                                            // Assuming $row_mail['created_at'] contains a valid date string
+
+                                            $rawDate = $row_mail['created_at'];
+                                            $dateTime = new DateTime($rawDate);
+                                            $formattedDate = $dateTime->format('d/m/Y h:ia');
+
+                                            echo $formattedDate;
+                                            ?>
                                         </td>
 
                                         <td>

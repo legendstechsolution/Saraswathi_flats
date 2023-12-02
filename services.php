@@ -67,8 +67,8 @@
                         <li><a target="_blank;" href="https://www.linkedin.com/in/anand-nathamani-2308a7a1/"
                               style="font-size:18px;"><i class="fa fa-linkedin"></i></a></li>
                         <li><a target="_blank;"
-                              href="https://api.whatsapp.com/send?phone=918072798551&amp;text=Hi Saraswathi Construction"
-                              style="font-size:18px;"><i class="fa fa-whatsapp"></i></a></li>
+                              href="https://instagram.com/nanandn2020?utm_source=qr&igshid=MzNlNGNkZWQ4Mg=="
+                              style="font-size:18px;"><i class="fa fa-instagram"></i></a></li>
                      </ul>
                   </div>
                </div>
@@ -125,10 +125,10 @@
                         <li><a href="index.php">Home</a></li>
                         <li><a href="#">Projects</a>
                            <ul>
-                              <li><a href="OnGoing_Project.php">OnGoing Project</a>
+                              <li><a href="OnGoing_Project.php">OnGoing Projects</a>
 
                               </li>
-                              <li><a href="portfolia.php">Complete Project</a></li>
+                              <li><a href="portfolia.php">Completed Projects</a></li>
                            </ul>
                         </li>
                         <li class="current-page-item"><a href="services.php">Our Services</a></li>
@@ -138,7 +138,8 @@
 
                         <li>
                            <a href="#">More</a>
-                           <ul>     <li><a href="carrer.php">Careers</a></li>
+                           <ul>
+                              <li><a href="carrer.php">Careers</a></li>
                               <li><a href="contact.php">Contact Us</a></li>
                               <li><a href="blog.php">Blog</a></li>
                            </ul>
@@ -191,6 +192,47 @@
    <!-- Service Area Start -->
    <section class="construct-service-area section_100">
       <div class="container">
+         <div class="row">
+            <div class="col-md-1 ">
+
+            </div>
+            <div class="col-md-5 pr-5 ">
+               <div class="single-service">
+                  <div>
+                     <h3>New Apartment Construction</h3><br>
+                     <p class=" text-justify">'Discover the charm of Lotus 2 BHK flats, meticulously designed
+                        for
+                        modern living. Located
+                        in the vibrant neighborhood of Madipakkam. Experience the
+                        assurance of quality, quick turnaround, and the best service with Lotus 2 BHK Flats..
+                     </p>
+                     <ul style="list-style: square outside none;">
+                        <li><span>&#10003;</span>
+                           STILT +3 FLOORS </li>
+                        <li><span>&#10003;</span>
+                           Car Parking </li>
+                        <li><span>&#10003;</span>
+                           Lift </li>
+                        <li><span>&#10003;</span>
+                           Total 6 Units</li>
+                        <li><span>&#10003;</span>
+                           Vasthu Compliant </li>
+                        <li><span>&#10003;</span>
+                           CCTV Surveillance </li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-5">
+               <div class="single-service">
+                  <div class="service-image" style=height:300px;overflow:hidden>
+
+                     <img src="assets/assets/img/projects/pro1.jpg" />
+
+                  </div>
+               </div>
+            </div>
+         </div>
          <div class="row">
             <div class="col-md-1 ">
 

@@ -688,7 +688,7 @@ li {
 ==================================================*/
 
 .header-logo-area {
-	padding: 20px 0 45px;
+	padding: 20px 0 15px;
 }
 
 .logoright-section {
@@ -1058,8 +1058,18 @@ li {
 ==================================================*/
 
 .construct-about-bottom-area {
-	background: rgba(0, 0, 0, 0) url("../img/jumbotron-1.jpg") no-repeat scroll center center / cover;
+	background: rgba(0, 0, 0, 0) url("../img/jumbotron-1.jpg");
 	color: #333;
+	background-repeat: no-repeat;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	background-position: center;
+}
+
+button[type=submit] {
+	cursor: pointer;
 }
 
 .about-bottom-one>h3 {

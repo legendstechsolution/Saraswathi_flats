@@ -5,7 +5,7 @@
                <div class="row">
                   <div class="col-md-6 col-sm-12">
                      <div class="header-top-left">
-                           
+
                         <p style="font-size: 14px;">27/15, Shanthi Nagar Main Road, Adambakkam, Chennai</p>
                      </div>
                   </div>
@@ -14,7 +14,9 @@
                         <ul>
                            <li><a target="_blank;" href="https://www.facebook.com/Saraswathi-Constructions-109052950639449/?modal=admin_todo_tour" style="font-size:18px;"><i class="fa fa-facebook"></i></a></li>
                            <li><a target="_blank;" href="https://www.linkedin.com/in/anand-nathamani-2308a7a1/" style="font-size:18px;"><i class="fa fa-linkedin"></i></a></li>
-                           <li><a target="_blank;" href="https://api.whatsapp.com/send?phone=918072798551&amp;text=Hi Saraswathi Construction" style="font-size:18px;"><i class="fa fa-whatsapp"></i></a></li> 
+                      <li><a target="_blank;"
+                              href="https://instagram.com/nanandn2020?utm_source=qr&igshid=MzNlNGNkZWQ4Mg=="
+                              style="font-size:18px;"><i class="fa fa-instagram"></i></a></li>
                         </ul>
                      </div>
                   </div>
@@ -25,29 +27,29 @@
             <div class="container">
                <div class="row">
                   <div class="col-lg-6 col-md-5 col-sm-5">
-                    
+
                         <a href="index.php">
                         <img src="assets/img/scs_logo.png" class="img-fluid" alt="site logo" style="width:400px; height:80px;" />
                         </a>
-                        
-                     
+
+
                     </div>
                     <div class="col-lg-3 col-md- col-sm-12">
                         <div class="logo-right-icon">
                               <i class="fa fa-phone"></i>
-                           </div>    
+                           </div>
                           <a href="tel:+91 80727 98551" ><h4>Call us</h4>
                             <p>+91 80727 98551</p></a>
-                    </div> 
+                    </div>
                     <div class="col-lg-3 col-md- col-sm-12 ">
                         <div class="logo-right-icon">
                               <i class="fa fa-envelope"></i>
-                           </div>    
+                           </div>
                          <a href="mailto:scsinconstructions@gmail.com"><h4>Mail us</h4>
                             <p>scsinconstructions@gmail.com</p></a>
 
-                            </div>   
-                    
+                            </div>
+
                </div>
             </div>
          </div>
@@ -70,11 +72,11 @@
                         <li><a href="#">
                             Lotus
                         </a></li>
-                       
+
                         <!-- Add more projects as needed -->
                     </ul>
                               </li>
-                              <li><a href="#">Complete Project</a></li>
+                              <li><a href="#">Completed Project</a></li>
                            </ul>
                         </li>
                         <li><a href="services.php">Our Services</a></li>
@@ -100,15 +102,15 @@
 
                      </ul>
                   </div>
-                    
+
                      <!-- Responsive Menu Start -->
                      <div class="construct-responsive-menu">
-                          <img src="assets/img/price.png" class="img-fluid " alt="offer" 
-                                            style="width:250px; height:50px;border-radius:5px;float:right;margin-top:-55px;" /> 
+                          <img src="assets/img/price.png" class="img-fluid " alt="offer"
+                                            style="width:250px; height:50px;border-radius:5px;float:right;margin-top:-55px;" />
                      </div>
                      <!-- Responsive Menu End -->
                   </div>
-                  
+
                </div>
             </div>
          </div>

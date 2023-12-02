@@ -78,9 +78,9 @@
                               style="font-size:18px;"><i class="fa fa-facebook"></i></a></li>
                         <li><a target="_blank;" href="https://www.linkedin.com/in/anand-nathamani-2308a7a1/"
                               style="font-size:18px;"><i class="fa fa-linkedin"></i></a></li>
-                        <li><a target="_blank;"
-                              href="https://api.whatsapp.com/send?phone=918072798551&amp;text=Hi Saraswathi Construction"
-                              style="font-size:18px;"><i class="fa fa-whatsapp"></i></a></li>
+ <li><a target="_blank;"
+                              href="https://instagram.com/nanandn2020?utm_source=qr&igshid=MzNlNGNkZWQ4Mg=="
+                              style="font-size:18px;"><i class="fa fa-instagram"></i></a></li>
                      </ul>
                   </div>
                </div>
@@ -127,20 +127,22 @@
          <div class="container">
             <div class="row">
                <div class="col-md-12">
-
+                  <style>
+                     .mainmenu ul>li>ul>li {
+                        position: relative;
+                     }
+                  </style>
                   <div class="mainmenu">
                      <ul id="construct_navigation">
                         <li><a href="index.php">Home</a></li>
                         <li><a href="#">Projects</a>
                            <ul>
-                              <li><a href="OnGoing_Project.php">OnGoing Project</a>
+                              <li><a href="OnGoing_Project.php">OnGoing Projects</a>
 
                               </li>
-                              <li><a href="portfolia.php">Complete Project</a></li>
+                              <li><a href="portfolia.php">Completed Projects</a></li>
                            </ul>
                         </li>
-
-
                         <li><a href="services.php">Our Services</a></li>
                         <li><a href="venture.php">Joint Venture</a></li>
                         <li class="current-page-item"><a href="portfolia.php">Portfolio</a></li>
@@ -234,47 +236,6 @@
                      src="assets/img/portfolia/interior/1.jpg"></a>
             </div>
             <div class="col-md-4 mb-4">
-               <a href="assets/img/portfolia/interior/4.jpg"><img class="img-thumbnail" width="100%"
-                     src="assets/img/portfolia/interior/4.jpg"></a>
-            </div>
-
-            <div class="col-md-4 mb-4">
-               <a href="assets/img/portfolia/interior/6.jpg"><img class="img-thumbnail" width="100%"
-                     src="assets/img/portfolia/interior/6.jpg"></a>
-            </div>
-            <div class="col-md-4 mb-4">
-               <a href="assets/img/portfolia/interior/7.jpg"><img class="img-thumbnail" width="100%"
-                     src="assets/img/portfolia/interior/7.jpg"></a>
-            </div>
-            <div class="col-md-4 mb-4">
-               <a href="assets/img/portfolia/interior/8.jpg"><img class="img-thumbnail" width="100%"
-                     src="assets/img/portfolia/interior/8.jpg"></a>
-            </div>
-            <div class="col-md-4 mb-4">
-               <a href="assets/img/portfolia/interior/9.jpg"><img class="img-thumbnail" width="100%"
-                     src="assets/img/portfolia/interior/9.jpg"></a>
-            </div>
-            <div class="col-md-4 mb-4">
-               <a href="assets/img/portfolia/interior/10.jpg"><img class="img-thumbnail" width="100%"
-                     src="assets/img/portfolia/interior/10.jpg"></a>
-            </div>
-            <div class="col-md-4 mb-4">
-               <a href="assets/img/portfolia/interior/11.jpg"><img class="img-thumbnail" width="100%"
-                     src="assets/img/portfolia/interior/11.jpg"></a>
-            </div>
-            <div class="col-md-4 mb-4">
-               <a href="assets/img/portfolia/interior/12.jpg"><img class="img-thumbnail" width="100%"
-                     src="assets/img/portfolia/interior/12.jpg"></a>
-            </div>
-            <div class="col-md-4 mb-4">
-               <a href="assets/img/portfolia/interior/13.jpg"><img class="img-thumbnail" width="100%"
-                     src="assets/img/portfolia/interior/13.jpg"></a>
-            </div>
-            <div class="col-md-4 mb-4">
-               <a href="assets/img/portfolia/interior/14.jpg"><img class="img-thumbnail" width="100%"
-                     src="assets/img/portfolia/interior/14.jpg"></a>
-            </div>
-            <div class="col-md-4 mb-4">
                <a href="assets/img/portfolia/interior/2.jpg"><img class="img-thumbnail" width="100%"
                      src="assets/img/portfolia/interior/2.jpg"></a>
             </div>
@@ -282,14 +243,7 @@
                <a href="assets/img/portfolia/interior/3.jpg"><img class="img-thumbnail" width="100%"
                      src="assets/img/portfolia/interior/3.jpg"></a>
             </div>
-            <div class="col-md-4 mb-4">
-               <a href="assets/img/portfolia/interior/15.jpg"><img class="img-thumbnail" width="100%"
-                     src="assets/img/portfolia/interior/15.jpg"></a>
-            </div>
-            <div class="col-md-4 mb-4">
-               <a href="assets/img/portfolia/interior/16.jpg"><img class="img-thumbnail" width="100%"
-                     src="assets/img/portfolia/interior/16.jpg"></a>
-            </div>
+
             <div class="col-md-4 mb-4">
                <a href="assets/img/portfolia/renovation/renow1.jpg"><img class="img-thumbnail" width="100%"
                      src="assets/img/portfolia/renovation/renow1.jpg"></a>
@@ -298,10 +252,7 @@
                <a href="assets/img/portfolia/renovation/renow2.jpg"><img class="img-thumbnail" width="100%"
                      src="assets/img/portfolia/renovation/renow2.jpg"></a>
             </div>
-            <div class="col-md-4 mb-4">
-               <a href="assets/img/portfolia/renovation/renow3.jpg"><img class="img-thumbnail" width="100%"
-                     src="assets/img/portfolia/renovation/renow3.jpg"></a>
-            </div>
+
             <div class="col-md-4 mb-4">
                <a href="assets/img/portfolia/renovation/renow4.jpg"><img class="img-thumbnail" width="100%"
                      src="assets/img/portfolia/renovation/renow4.jpg"></a>
@@ -317,8 +268,7 @@
 
          </div>
       </div>
-   </div>
-   <br><br>
+   </div><br><br>
 
    <!-- portfolia Area end -->
 
@@ -341,7 +291,18 @@
    ?>
    <!-- Footer Area End -->
 
-
+   <!-- Magnific Popup JS -->
+   <script src="assets/js/jquery.magnific-popup.min.js"></script>
+   <!-- OwlCarousel JS -->
+   <script src="assets/js/owl.carousel.min.js"></script>
+   <!-- SlickNav JS -->
+   <script src="assets/js/jquery.slicknav.min.js"></script>
+   <!-- Isotop Js -->
+   <script src="assets/js/isotope.pkgd.min.js"></script>
+   <script src="assets/js/jquery.magnific-popup.min.js"></script>
+   <script src="assets/js/custom-isotop.js"></script>
+   <!-- Custom JS -->
+   <script src="assets/js/custom.js"></script>
    <script>
       $(document).ready(function () {
          // add all to same gallery

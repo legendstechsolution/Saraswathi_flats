@@ -11,8 +11,10 @@ if ($admin != 'admin') {
 
 
 
+
 if (isset($_GET['delete_id'])) {
     $id = $_GET['delete_id'];
+
 
     // Fetch the file name and directory from the database
     $sql_select = "SELECT resume FROM career_applications WHERE id = '$id'";
@@ -21,37 +23,25 @@ if (isset($_GET['delete_id'])) {
     if ($result_select) {
         $row = mysqli_fetch_assoc($result_select);
         $resumeFileName = $row['resume'];
+
         $resumeFilePath = "admin/images/" . $resumeFileName;
 
         // Check if the file exists before attempting deletion
         if (file_exists($resumeFilePath)) {
             // Attempt to delete the file
             if (unlink($resumeFilePath)) {
-                // Check if the directory exists before attempting deletion
-                $targetDir = "admin/images/";
-                $applicantDirectory = $targetDir . pathinfo($resumeFilePath, PATHINFO_FILENAME);
+                // If file deletion is successful, delete the database record
+                $sql_delete = "DELETE FROM career_applications WHERE id = '$id'";
+                $result_delete = mysqli_query($conn, $sql_delete);
 
-                if (is_dir($applicantDirectory)) {
-                    // Attempt to delete the directory
-                    if (rmdir($applicantDirectory)) {
-                        // Directory deletion successful, now delete the database record
-                        $sql_delete = "DELETE FROM career_applications WHERE id= '$id'";
-                        $result_delete = mysqli_query($conn, $sql_delete);
-
-                        if ($result_delete) {
-                            echo "<script>";
-                            echo "alert('Deleted Successfully!')";
-                            echo "</script>";
-                            echo "<script>window.location='carrer_mail.php'</script>";
-                            exit; // Exit to prevent further execution
-                        } else {
-                            echo "<script>alert('Error deleting database record');</script>";
-                        }
-                    } else {
-                        echo "<script>alert('Error deleting directory');</script>";
-                    }
+                if ($result_delete) {
+                    echo "<script>";
+                    echo "alert('Deleted Successfully!')";
+                    echo "</script>";
+                    echo "<script>window.location='carrer_mail.php'</script>";
+                    exit; // Exit to prevent further execution
                 } else {
-                    echo "<script>alert('Directory does not exist');</script>";
+                    echo "<script>alert('Error deleting database record');</script>";
                 }
             } else {
                 echo "<script>alert('Error deleting file');</script>";
@@ -62,7 +52,11 @@ if (isset($_GET['delete_id'])) {
     } else {
         echo "<script>alert('Error fetching file information from the database');</script>";
     }
+
+
 }
+
+
 
 
 
@@ -215,7 +209,7 @@ $result_mail = mysqli_query($conn, $sql_mail);
         <div class="container">
             <div class="row">
                 <div class=" col-lg-12 col-md-12 col-sm-12">
-                    <h2 style="color:red;">Mail List </h2><br><br>
+                    <h2 style="color:red;">Carrer List </h2><br><br>
                     <div id="overflowTest">
                         <table class="table table-bordered table-striped table-hover" id="">
                             <thead>
@@ -230,7 +224,7 @@ $result_mail = mysqli_query($conn, $sql_mail);
                                     <th>Salary</th>
                                     <th>Location</th>
                                     <th>Date Applied</th>
-                                    <th>Time Applied</th>
+                                    <!-- <th>Time Applied</th> -->
                                     <th>Action</th>
 
                                 </tr>
@@ -271,12 +265,29 @@ $result_mail = mysqli_query($conn, $sql_mail);
                                         <td>
                                             <?php echo $row_mail['current_location']; ?>
                                         </td>
+
                                         <td>
-                                            <?php echo $row_mail['date_applied']; ?>
+                                            <?php
+                                            // Assuming $row_mail['date_applied'] contains a valid date string
+                                        
+                                            $rawDate = $row_mail['date_applied'];
+                                            $dateTime = new DateTime($rawDate);
+                                            $formattedDate = $dateTime->format('d/m/Y');
+
+                                            echo $formattedDate;
+                                            ?>
                                         </td>
-                                        <td>
-                                            <?php echo $row_mail['time_applied']; ?>
-                                        </td>
+
+                                        <!-- <td>
+                                            <?php
+                                            $rawTime = $row_mail['time_applied'];
+                                            // $timeObject = new DateTime($rawTime);
+                                        
+
+                                            // $formattedTime = $timeObject->format('h:ia');
+                                            echo $rawTime;
+                                            ?>
+                                        </td> -->
                                         <td>
                                             <a href="carrer_mail.php?delete_id=<?php echo $row_mail['id']; ?>"
                                                 class="btn btn-sm btn-danger"

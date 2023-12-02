@@ -11,7 +11,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Validate CAPTCHA
     if ($userAnswer !== $_SESSION['captcha_answer']) {
-        echo '<script>alert("Incorrect CAPTCHA answer!");</script>';
+        // Incorrect CAPTCHA answer
+        $alertMessage = 'Incorrect CAPTCHA answer!';
+        $alertType = 'danger';
     } else {
         // Create the brochure_requests table if not exists
         $createTableQuery = "CREATE TABLE IF NOT EXISTS brochure_requests (
@@ -21,27 +23,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             mobile VARCHAR(15) NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )";
-
-        if ($conn->query($createTableQuery) !== TRUE) {
-            echo "Error creating table: " . $conn->error;
-            $conn->close();
-            exit;
-        }
+        $conn->query($createTableQuery);
 
         // Insert data into the brochure_requests table
         $insertDataQuery = "INSERT INTO brochure_requests (name, email, mobile) VALUES ('$name', '$email', '$mobile')";
 
         if ($conn->query($insertDataQuery) === TRUE) {
-            $filename = "http://localhost/saraswathimain/brochure.pdf";
+            $filename = "brochure.pdf";
 
-            echo '<script>alert("Record inserted successfully! Click the link to download the brochure.");
-                  window.location.href = "' . $filename . '";</script>';
-        } else {
-            echo "Error: " . $insertDataQuery . "<br>" . $conn->error;
+            // Success message with a link to download the brochure
+            $alertMessage = 'successfully! Click to download the brochure.';
+            $alertType = 'success';
         }
 
         $conn->close();
     }
+
+    // Display Bootstrap alert
+
+
 }
 function generateCaptcha()
 {
@@ -174,6 +174,28 @@ $captchaQuestion = generateCaptcha();
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-ML69RCZS" height="0" width="0"
             style="display:none;visibility:hidden"></iframe></noscript>
     <!-- Header Area Start -->
+    <?php
+    if (isset($alertMessage)) {
+        echo '<div id="alert" class="alert alert-' . $alertType . ' alert-dismissible fade show" role="alert">
+              ' . $alertMessage . '
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>';
+
+        echo '<script>
+            if ("' . $alertType . '" === "success") {
+                setTimeout(function() {
+                    $("#alert").alert("close");
+                    window.open("brochure.pdf", "_blank");
+                }, 3000);
+            } else {
+                setTimeout(function() {
+                    $("#alert").alert("close");
+                }, 3000);
+            }
+        </script>';
+    }
+    ?>
+
     <header class="construct-header-area">
         <div class="header-top-area">
             <div class="header-top-overlay"></div>
@@ -188,14 +210,18 @@ $captchaQuestion = generateCaptcha();
                     <div class="col-md-6 col-sm-12">
                         <div class="header-top-right">
                             <ul>
+                                <li> <a class="btnglow btn-primary btn-custom" data-toggle="modal"
+                                        data-target="#callnow">
+                                        <i class="fa fa-download"></i> Get Brouchure
+                                    </a></li>
                                 <li><a target="_blank;"
                                         href="https://www.facebook.com/Saraswathi-Constructions-109052950639449/?modal=admin_todo_tour"
                                         style="font-size:18px;"><i class="fa fa-facebook"></i></a></li>
                                 <li><a target="_blank;" href="https://www.linkedin.com/in/anand-nathamani-2308a7a1/"
                                         style="font-size:18px;"><i class="fa fa-linkedin"></i></a></li>
                                 <li><a target="_blank;"
-                                        href="https://api.whatsapp.com/send?phone=918072798551&amp;text=Hi Saraswathi Construction"
-                                        style="font-size:18px;"><i class="fa fa-whatsapp"></i></a></li>
+                                        href="https://instagram.com/nanandn2020?utm_source=qr&igshid=MzNlNGNkZWQ4Mg=="
+                                        style="font-size:18px;"><i class="fa fa-instagram"></i></a></li>
                             </ul>
                         </div>
                     </div>
@@ -271,9 +297,11 @@ $captchaQuestion = generateCaptcha();
                                 class="demoInputBox" onpaste="return false" required="">
 
 
-                            <input id="mobile" name="mobile" placeholder="Mobile e.g. 8186766666" type="number"
+                            <input id="mobile" name="mobile" placeholder="Mobile e.g. 8186766666" type="text"
                                 onpaste="return false;" class="mobvalid demoInputBox"
-                                onkeypress="return isNumberKey(event)" autocomplete="off" required="">
+                                onkeypress="return isNumberKey(event)" autocomplete="off" pattern="[0-9]{10}" required
+                                title="Please enter valid phone number">
+
                             <label style="color:blue;font-size:15px;">
                                 solve
                             </label>
@@ -511,8 +539,8 @@ $captchaQuestion = generateCaptcha();
         /* Add this style to your CSS */
 
 
-        .btn {
-            background-color: #004A7F;
+        .btnglow {
+            background-color: yellow;
             -webkit-border-radius: 10px;
             border-radius: 10px;
             border: none;
@@ -613,88 +641,58 @@ $captchaQuestion = generateCaptcha();
             </div>
         </div>
     </section>
+    <div class="modal fade" id="callnow" role="dialog" style="background-color: #0D498087;">
+        <div class="modal-dialog">
+            <!-- Modal content -->
+            <div class="modal-content clearfix"
+                style="background-color: #ffffff; max-width: 450px; margin: auto; border-radius: 0px !important;">
+                <div class="modal-body">
+                    <div class="sidebar-widget">
+                        <div class="heading-properties main-title-2">
+                            <h3 style="text-align: center; font-weight: 800; font-size: 22px; color: #0D4980;">
+                                Get Brouchure</h3>
+                        </div>
+                        <div class="contact-form mainpopup">
+                            <div style="padding-top: 0px;" id="form-outer-contact">
+                                <div id="frm-contact">
+                                    <div id="btn-logo-rest-body">
+                                        <form action="" method="post">
+                                            <input id="first_name" name="name" placeholder="Name" type="text"
+                                                autocomplete="off" class="demoInputBox" onpaste="return false"
+                                                required="">
+                                            <input id="email" name="email" placeholder="Email" type="email"
+                                                autocomplete="off" class="demoInputBox" onpaste="return false"
+                                                required="">
+                                            <input id="mobile" name="mobile" placeholder="Mobile e.g. 8186766666"
+                                                type="text" class="mobvalid demoInputBox" autocomplete="off"
+                                                pattern="[0-9]{10}" required title="Please enter valid phone number">
 
-    <section class="bg_brand">
-        <div class="container">
-            <div class="text-center">
-                <br />
-                <h3 class="mb16 uppercase bold uppercase color-primary"><b> Book an LOTUS 2BHK FLATS
-                    </b></h3>
+                                            <label for="captcha">
+                                                Captcha
+                                                <?php echo $captchaQuestion; ?>
+                                            </label>
+                                            <input type="number" id="captcha" name="captcha"
+                                                placeholder="Enter the result" required>
 
-            </div>
-            <div class="row">
-                <div class="col-md-6 d-flex justify-content-center align-items-center">
-
-                    <button class="btn btn-primary btn-custom" data-toggle="modal" data-target="#callnow">
-                        <i class="fa fa-phone"></i> Call Us
-                    </button>
-                    <div class="modal fade" id="callnow" role="dialog" style="background-color: #0D498087;">
-                        <div class="modal-dialog">
-                            <!-- Modal content -->
-                            <div class="modal-content clearfix"
-                                style="background-color: #ffffff; max-width: 450px; margin: auto; border-radius: 0px !important;">
-                                <div class="modal-body">
-                                    <div class="sidebar-widget">
-                                        <div class="heading-properties main-title-2">
-                                            <h3
-                                                style="text-align: center; font-weight: 800; font-size: 22px; color: #0D4980;">
-                                                Book
-                                                A
-                                                Site Visit</h3>
-                                        </div>
-                                        <div class="contact-form mainpopup">
-                                            <div style="padding-top: 0px;" id="form-outer-contact">
-                                                <div id="frm-contact">
-                                                    <div id="btn-logo-rest-body">
-                                                        <form action="" method="post">
-                                                            <input id="first_name" name="name" placeholder="Name"
-                                                                type="text" autocomplete="off" class="demoInputBox"
-                                                                onpaste="return false" required="">
-                                                            <input id="email" name="email" placeholder="Email"
-                                                                type="email" autocomplete="off" class="demoInputBox"
-                                                                onpaste="return false" required="">
-                                                            <input id="mobile" name="mobile"
-                                                                placeholder="Mobile e.g. 8186766666" type="number"
-                                                                onpaste="return false;" class="mobvalid demoInputBox"
-                                                                onkeypress="return isNumberKey(event)"
-                                                                autocomplete="off" required="">
-                                                            <label for="captcha">
-                                                                Captcha
-                                                                <?php echo $captchaQuestion; ?>
-                                                            </label>
-                                                            <input type="number" id="captcha" name="captcha"
-                                                                placeholder="Enter the result" required>
-
-                                                            <input type="submit" name="submit" value="Know More"
-                                                                class="sbclear contactbuttonsubmit formbuttonstyler">
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="close_div" style="position: absolute; top: 10px; right: 20px;">
-                                                <div id="popupclose"
-                                                    style="font-size: 20px; font-weight: 800; cursor: pointer; color: #0D4980;"
-                                                    class="button-md button-theme close_btn_popup" data-dismiss="modal">
-                                                    X</div>
-                                            </div>
-                                        </div>
+                                            <input type="submit" name="submit" value="Download Brouchure"
+                                                class="sbclear contactbuttonsubmit formbuttonstyler">
+                                        </form>
                                     </div>
                                 </div>
                             </div>
+                            <div class="close_div" style="position: absolute; top: 10px; right: 20px;">
+                                <div id="popupclose"
+                                    style="font-size: 20px; font-weight: 800; cursor: pointer; color: #0D4980;"
+                                    class="button-md button-theme close_btn_popup" data-dismiss="modal">
+                                    X</div>
+                            </div>
                         </div>
                     </div>
-
-                </div>
-                <div class="col-md-6 d-flex justify-content-center align-items-center">
-                    <button class="btn btn-success btn-custom">
-                        <a target="_blank" href="brochure.pdf" download><i class="fa fa-download"></i> Get Brochure</a>
-                    </button>
                 </div>
             </div>
         </div>
-        <br />
-        </div>
-    </section>
+    </div>
+
     <!-- Breadcromb Area End -->
     <section style="padding-top: 18px;">
 
@@ -708,14 +706,19 @@ $captchaQuestion = generateCaptcha();
                 <div class="row mt40 mmtb0" style="max-width:1000px;margin:auto;">
                     <div class="col-xl-12 col-md-12" style="align-items: center">
 
-                        <img class="onlydesktop" src="./assets/assets/img/Connection_nodes.jpg">
+                        <img class="onlydesktop" src="./assets/assets/img/Connection_nodes.png">
 
 
                     </div>
                 </div>
 
             </section>
-
+            <ul>
+                <li class="text-center"><a class="btnglow btn-primary btn-custom" style="color:#ffff"
+                        data-toggle="modal" data-target="#callnow">
+                        <i class="fa fa-download"></i> Get Brouchure
+                    </a></li>
+            </ul>
             <div class="row">
                 <div class="col-sm-6 ">
 
@@ -741,8 +744,8 @@ $captchaQuestion = generateCaptcha();
                     </div>
 
                     <ul class="lead">
-                        <li> Internal Minor Alterations, Electrical Points, Plumbing Fittings, Tile, Main Doors
-                            &Other Doors And Painting Shall Be Of Customers Choice.</li>
+                        <li> Internal Minor Alterations, Electrical Points, Plumbing Fittings, Tile Shall Be Of
+                            Customers Choice.</li>
                         <li> Tile Provided For Ground Floor Car Park Areas For Easy Maintenance.</li>
                         <li> Step Tile Shall Be Provided For Staircase And Stainless Steel Hand Rails.</li>
                         <li> Rain Water Harvesting.</li>
@@ -750,10 +753,11 @@ $captchaQuestion = generateCaptcha();
                         <li> Fixed Supports For Drying Clothes In Terrace.
                         </li>
                         <li> All Bed Rooms And Kitchen Shall Be Provided With Lofts.</li>
-                        <li> White Tile In Terrace (Heat Proof Tile) > Six Passenger Automatic Lift Will Be
-                            Provided
+                        <li>Heat Proof Residences Tile In Terrace.
 
                         </li>
+                        <li>Six Passenger Automatic Lift Will Be
+                            Provided.</li>
                         <li> Cctv Provision.</li>
                     </ul>
                     <div class="text-center">
@@ -804,11 +808,11 @@ $captchaQuestion = generateCaptcha();
                     <div class="imgbrand"></div>
                     <ul class="lead">
 
-                        <li> Living, Dining, Kitchen And Bedrooms Floorings Shall Be Provided With 2 X 21
+                        <li> Living, Dining, Kitchen And Bedrooms Floorings Shall Be Provided With 2" X 2"
                             Vitrified
                             Tiles.</li>
-                        <li> Bathroom Wall Tile For 71 0" Height,
-                            Kitchen Wall Tile Up To 210" Height
+                        <li> Bathroom Wall Tile For 7" Height,
+                            Kitchen Wall Tile Up To 2" Height
                         </li>
                         <li> Anti-Skid Bathroom Floor Tiles.</li>
                         <li> Kitchen Platform With High Grade Polished Black Granite Top.</li>
@@ -896,7 +900,22 @@ $captchaQuestion = generateCaptcha();
                 background: linear-gradient(90deg, rgba(248, 246, 246, 1) 0%, rgba(245, 245, 251, 1) 35%, rgba(228, 232, 233, 1) 100%);
 
             }
+
+            .header-top-overlay:before {
+                border-color: #fbb908 transparent;
+                border-style: solid;
+                border-width: 0 34px 57px;
+                content: "";
+                left: -35px;
+                position: absolute;
+            }
         </style>
+        <ul>
+            <li class="text-center"><a class="btnglow btn-primary btn-custom" style="color:#ffff" data-toggle="modal"
+                    data-target="#callnow">
+                    <i class="fa fa-download"></i> Get Brouchure
+                </a></li>
+        </ul>
         <section class="bg_brand">
             <div class="container">
                 <div class="text-center">
@@ -911,11 +930,11 @@ $captchaQuestion = generateCaptcha();
                     <div class="col-md-12 d-flext align-item-center">
                         <div id="owl-demo" class="owl-carousel owl-theme">
                             <img class="img-fluid equal-size" src="./assets/assets/img/paints/asianpaint.png" />
-                            <!-- <img src="./assets/assets/img/paints/bergerpaint.png" width="100px"  /> -->
+                            <img src="./assets/assets/img/plumping/parryware.jpg" class="img-fluid equal-size" />
                             <!-- <img src="./assets/assets/img/paints/duluxpaint.png" width="100px"  /> -->
                             <img class="img-fluid equal-size" src="./assets/assets/img/tiles/bajaji.png" />
                             <img src="./assets/assets/img/tiles/kajaria.png" class="img-fluid equal-size" />
-                            <img src="./assets/assets/img/tiles/somany.png" class="img-fluid equal-size" />
+                            <img src="./assets/assets/img/tiles/public.jpg" class="img-fluid equal-size" />
                             <!-- <img src="./assets/assets/img/plumping/ashirvad.jpg" class="img-fluid" /> -->
                             <img src="./assets/assets/img/plumping/astral.png" class="img-fluid equal-size" />
                             <!-- <img src="./assets/assets/img/plumping/supreme.jpg" width="100px"  /> -->
@@ -943,7 +962,7 @@ $captchaQuestion = generateCaptcha();
                 <div class="row">
                     <div class="col-sm-12 text-center">
                         <br />
-                        <h3 class="mb16 uppercase bold uppercase color-primary"><b>UNIQUELY CRAFTED HOME &
+                        <h3 class="mb16 uppercase bold uppercase color-primary"><b>UNIQUELY CRAFTED HOME With
                                 PARKING
                             </b></h3>
                         <p class="lead mb32 text-center">
@@ -1485,53 +1504,7 @@ $captchaQuestion = generateCaptcha();
     </script>
 
 
-    <script>
-        var userNameinput = document.getElementById("userName");
-        var userEmailinput = document.getElementById("userEmail");
-        var phonenumbinput = document.getElementById("phonenumb");
-        var otpfieldinput = document.getElementById("otpfield");
 
-        userNameinput.addEventListener("keyup", function (event) {
-            if (event.keyCode === 13) {
-                event.preventDefault();
-                document.getElementById("myBtn").click();
-            }
-        });
-        userEmailinput.addEventListener("keyup", function (event) {
-            if (event.keyCode === 13) {
-                event.preventDefault();
-                document.getElementById("myBtn").click();
-            }
-        });
-        phonenumbinput.addEventListener("keyup", function (event) {
-            if (event.keyCode === 13) {
-                event.preventDefault();
-                document.getElementById("myBtn").click();
-            }
-        });
-        otpfieldinput.addEventListener("keyup", function (event) {
-            if (event.keyCode === 13) {
-                event.preventDefault();
-                document.getElementById("myOTPBtn").click();
-            }
-        });
-
-        function addCss(cssCode) {
-            var styleElement = document.createElement("style");
-            styleElement.type = "text/css";
-            if (styleElement.styleSheet) {
-                styleElement.styleSheet.cssText = cssCode;
-            } else {
-                styleElement.appendChild(document.createTextNode(cssCode));
-            }
-            document.getElementsByTagName("head")[0].appendChild(styleElement);
-        }
-        if (window.location.href.indexOf("gclid") > -1 || window.location.href.indexOf("google") > -1) {
-            addCss(".onlygclid { display: table-row; };");
-            addCss(".onlygclid2 { display: block;}");
-        }
-
-    </script>
 
 
 
